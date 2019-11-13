@@ -1,22 +1,30 @@
 const readlineSync = require("readline-sync");
 
-const MIN = Number.MIN_SAFE_INTEGER;
-const MAX = Number.MAX_SAFE_INTEGER;
+MIN = Number.MIN_SAFE_INTEGER;
+MAX = Number.MAX_SAFE_INTEGER;
 
-let lowerBound = Number(readlineSync.question("\nLower bound: "));
-let upperBound = Number(readlineSync.question("\nUpper bound: "));
+let sum = 0;
+let lowerValue;
+let higherValue;
 
-const range = (lowerBound, upperBound, rangeLength = upperBound - lowerBound) =>
-  Array.from({ rangeLength }, (_, i) => lowerBound + i)
+console.log();
+do {
+    
+    lowerValue = Number(readlineSync.question("Lower bound: "));
+    higherValue = Number(readlineSync.question("Upper bound: "));
+} while ((lowerValue < MIN || higherValue > MAX) || (lowerValue >= higherValue));
 
-const sumRange = 0;
-
-while (upperBound <= lowerBound || lowerBound < MIN || upperBound > MAX || Number.isNan(lowerBound) || Number.isNaN(upperBound) ) {
-  lowerBound = console.log("Lower bound: ");
-  upperBound = console.log("Upper bound: ");
-} for (i % 2 == 0) {
-  i+= i;
-  sumRange = i;
+while (higherValue >= lowerValue) {
+    if (lowerValue % 2 === 0) {
+        sum += lowerValue;
+        lowerValue++;
+      
+    } else {
+      
+        lowerValue++;
+    }
+  
 }
 
-console.log(sumRange);
+sum = sum.toLocaleString("en");
+console.log("\n" + sum + ".");
