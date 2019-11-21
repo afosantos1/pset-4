@@ -7,7 +7,7 @@ while (height > 24 || height < 1 || Number.isNaN(height) == true || height%1!=0)
   height = Number(input.question("Height: "));
 }
 
-console.log();
+console.log(¨¨);
 
 for(let x = 1; x < height+1; x++){
   for(var i = 0; i < height-x; i++){
