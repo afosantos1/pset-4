@@ -1,62 +1,58 @@
 const readlineSync = require("readline-sync");
 
-let MIN = 1000000000000;
-let MAX = 9999999999999999;
+const MIN = 1000000000000;
+const MAX = 10000000000000000;
+
+let creditCardNumber = Number(readlineSync.question("\nNumber: "));
 let sum = 0;
-let current;
-let shrinkNumber = 1;
-let count = 0;
-let creditNum;
-let digit = 0;
-let checksum = 0;
-let current1 = 0;
-let current2 = 0;
-let firstNum;
+let times2;
+let newStringOfNumbers = "";
+let sumOfDigitsNotMultipliedByTwo = 0;
 
-console.log();
-do {
-  creditNum = Number(readlineSync.question("Number: "));
-} while (creditNum < MIN || creditNum > MAX || Number.isNaN(creditNum) || !Number.isInteger(creditNum));
-
-shrinkNumber = creditNum;
-do {
-  current = shrinkNumber % 10;
-  current2 = current1;
-  current1 = current;
-  shrinkNumber = Math.floor(shrinkNumber/10);
-  count++
-  if (count % 2 == 0) {
-    current = current * 2;
-    if (current > 9){
-      checksum += 1 + (current % 10);
-    } else {
-       checksum = current + checksum
-    }
-    
-  } else {
-    digit = digit + current;
-  }
-  
-} while (shrinkNumber > 0)
-checksum = checksum + digit;
-
-if (current1 == 3 || current1 == 5) {
-  firstNum = (current1 * 10) + current2;
-} else {
-  firstNum = current1;
+while (creditCardNumber < MIN || creditCardNumber >= MAX){
+  creditCardNumber = Number(readlineSync.question("Number: "));
 }
 
-if (checksum % 10 == 0) {
-  if (count == 15 && (firstNum == 34 || firstNum == 37)) {
+creditCardNumber = String(creditCardNumber);
+let numberOfDigits = creditCardNumber.length;
+
+for (let i = numberOfDigits - 2; i >= 0; i -= 2) {
+  digit = creditCardNumber.charAt(i);
+  digit = Number(digit);
+  times2 = digit * 2;
+  times2 = String(times2);
+  newStringOfNumbers = newStringOfNumbers + times2;
+}
+
+for (let k = newStringOfNumbers.length + 1; k >= 0; k--) {
+  digit = newStringOfNumbers.charAt(k);
+  digit = Number(digit);
+  sum = sum + digit;
+
+}
+for (let j = numberOfDigits + 1; j >= 0; j -= 2){
+  digit = creditCardNumber.charAt(j);
+  digit = Number(digit);
+  sumOfDigitsNotMultipliedByTwo = sumOfDigitsNotMultipliedByTwo + digit;
+}
+
+checkSum = sum + sumOfDigitsNotMultipliedByTwo;
+checkSum = String(checkSum);
+
+let valid = (checkSum.endsWith("0") == true) ? true : false;
+
+if (valid == true){
+
+  if (numberOfDigits == 15 && creditCardNumber.startsWith("34") == true || creditCardNumber.startsWith("37") == true){
     console.log("\nAmex.\n");
-  } else if (count == 16 && (firstNum == 51 || firstNum == 52 || firstNum == 53 || firstNum == 54 || firstNum == 55)) {
-    console.log("\nMastercard.\n")
-  } else if (firstNum == 4 && (count == 13 || count == 16)) {
-    console.log("\nVisa.\n")
-  } else {
-    console.log("\nInvalid.\n");
   }
-  
-} else {
+  else if (numberOfDigits == 13 || numberOfDigits == 16 && creditCardNumber.startsWith("4") == true){
+    console.log("\nVisa.\n");
+  }
+  else {
+    console.log("\nMastercard.\n");
+  }
+}
+else {
   console.log("\nInvalid.\n");
 }
